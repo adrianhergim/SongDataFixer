@@ -170,7 +170,7 @@ class FilenameParser:
 
     def _clean_artist(self, artist: str) -> str:
 
-        cleaned = artist
+        cleaned = re.sub(r"^\d+\s*[.\-]\s*", "", artist)
 
         for pattern in self.ARTIST_PATTERNS:
             cleaned = re.sub(
@@ -243,6 +243,7 @@ class FilenameParser:
                     continue
 
                 cut = i
+                found_stop = False
 
                 while cut > 0:
 
@@ -258,12 +259,17 @@ class FilenameParser:
                         "and",
                         "&",
                     }:
+                        found_stop = True
                         break
 
                     if previous.islower():
+                        found_stop = True
                         break
 
                     cut -= 1
+
+                if not found_stop:
+                    cut = i
 
                 return " ".join(words[:cut]).strip()
 
