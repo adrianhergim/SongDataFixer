@@ -90,9 +90,9 @@ class FilenameParser:
         embedded_artist = self._read_metadata(track)
 
         if embedded_artist:
-            track.search_artist = self._clean_artist(embedded_artist)
+            track.search_artist = self.clean_artist(embedded_artist)
         else:
-            track.search_artist = self._clean_artist(artist)
+            track.search_artist = self.clean_artist(artist)
 
         track.search_title = self._clean_title(title)
 
@@ -168,7 +168,7 @@ class FilenameParser:
     # Artist cleaning
     # ------------------------------------------------------------------
 
-    def _clean_artist(self, artist: str) -> str:
+    def clean_artist(self, artist: str) -> str:
 
         cleaned = re.sub(r"^\d+\s*[.\-]\s*", "", artist)
 
